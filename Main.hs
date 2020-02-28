@@ -11,10 +11,12 @@ main = run 8000 handler
 -- Type of a function that writes the response back to the client
 type ResponseWriter = (Response -> IO ResponseReceived)
 
-
 handler :: Request -> ResponseWriter -> IO ResponseReceived
 handler request writeResponse = do
   pPrint request
+  
+  reqBody <- strictRequestBody request
+  pPrint reqBody
   
   let myResponse = responseLBS status200 [] mempty
   writeResponse myResponse
